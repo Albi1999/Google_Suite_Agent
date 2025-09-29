@@ -32,7 +32,7 @@ To quickly run the demo, you can use Docker. Make sure you have Docker installed
 
 1. Clone this repository to your local machine.
 ```bash
-git clone ...
+git clone https://github.com/Albi1999/Google_Suite_Agent.git
 ```
 2. Clone the [google_workspace_mcp](https://github.com/taylorwilsdon/google_workspace_mcp.git) repository into the parent directory.
 ```bash
