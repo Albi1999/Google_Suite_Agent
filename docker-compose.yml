@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mcp_server:
+    container_name: mcp_server
+    build: ../google_workspace_mcp
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      GOOGLE_OAUTH_CLIENT_ID: "YOUR-GOOGLE_OAUTH_CLIENT_ID"
+      GOOGLE_OAUTH_CLIENT_SECRET: "YOUR-GOOGLE_OAUTH_CLIENT_SECRET"
+      OAUTHLIB_INSECURE_TRANSPORT: "1"
+      TOOL_TIER: "complete"
+    volumes:
+      - store_creds:/app/store_creds:rw
+    networks:
+      - compose_net
+      
+  google_chat_agent:
+    container_name: google_chat_agent
+
+    build:
+      context: ../g-suite-mcp-agent
+      dockerfile: agent.Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    environment:
+      GOOGLE_API_KEY: "YOUR-GOOGLE_API_KEY"
+    networks:
+      - compose_net
+    depends_on:
+      mcp_server:
+        condition: service_started
+
+volumes:
+  store_creds:
+
+networks:
+  compose_net:
+    driver: bridge
